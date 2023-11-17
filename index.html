@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Погода в Лондоні</title>
+</head>
+<body>
+
+  <button onclick="getWeather()">Отримати погоду</button>
+  <div id="weatherInfo"></div>
+
+  <script>
+    function getWeather() {
+      // ключ API OpenWeatherMap
+      const apiKey = 'c95b78cbb47d86b9e93a3a63691aa621';
+      const cityName = 'London'; 
+
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Витягнення потрібних даних 
+          const temperature = data.main.temp;
+          const humidity = data.main.humidity;
+          const windSpeed = data.wind.speed;
+
+          // Відображення даних
+          displayWeatherInfo(temperature, humidity, windSpeed);
+        })
+        .catch(error => {
+          console.error('Помилка отримання даних про погоду:', error);
+        });
+    }
+
+    function displayWeatherInfo(temperature, humidity, windSpeed) {
+      const weatherInfoElement = document.getElementById('weatherInfo');
+      weatherInfoElement.innerHTML = `
+        <h2>Погода в Лондоні:</h2>
+        <p>Температура: ${temperature} °C</p>
+        <p>Вологість: ${humidity}%</p>
+        <p>Швидкість вітру: ${windSpeed} м/с</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
